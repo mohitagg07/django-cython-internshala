@@ -1,0 +1,14 @@
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; background: #f4f4f4; }
+    .container { max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 8px; text-align: center; }
+    .btn-shop { background: #007bff; padding: 10px 15px; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; text-decoration: none; }
+</style>
+
+<div class="container">
+    <h1>✅ Thank You!</h1>
+    <p>Your order has been placed successfully.</p>
+    <p>Order ID: <strong>{{ order.id }}</strong></p>
+    <p>Total Amount: <strong>${{ order.total_amount }}</strong></p>
+    <br>
+    <a href="{% url 'product_list' %}" class="btn btn-shop">Back to Shop</a>
+</div>

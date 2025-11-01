@@ -1,0 +1,20 @@
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; background: #f4f4f4; }
+    h1 { border-bottom: 2px solid #ccc; padding-bottom: 10px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    .product-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .product-card h2 { margin-top: 0; }
+    .product-card a { text-decoration: none; color: #007bff; font-weight: 600; }
+    .product-card p { margin: 5px 0; }
+</style>
+
+<h1>🛍️ Our Products</h1>
+<div class="product-grid">
+    {% for product in products %}
+        <div class="product-card">
+            <h2><a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a></h2>
+            <p><strong>${{ product.price }}</strong></p>
+            <p><em>Category: {{ product.category }}</em></p>
+        </div>
+    {% endfor %}
+</div>

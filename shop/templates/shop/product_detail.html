@@ -1,0 +1,60 @@
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; background: #f4f4f4; }
+    .container { max-width: 900px; margin: auto; }
+    .back-link { display: inline-block; margin-bottom: 20px; color: #007bff; text-decoration: none; }
+    .product-main { border: 1px solid #ddd; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .product-main p { font-size: 1.1em; line-height: 1.6; }
+    .tags { background: #eee; padding: 5px 10px; border-radius: 15px; font-family: monospace; font-size: 0.9em; }
+    .recs { margin-top: 40px; }
+    .rec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .rec-card { border: 1px solid #eee; padding: 15px; border-radius: 8px; background: #fcfcfc; text-align: center; }
+    .rec-card h4 { margin: 0 0 5px 0; }
+    .rec-card a { text-decoration: none; color: #007bff; font-weight: 600; }
+</style>
+
+<div class="container">
+    <a href="{% url 'product_list' %}" class="back-link">&larr; Back to all products</a>
+    
+    <div class="product-main">
+        <h1>{{ product.name }}</h1>
+        <p><strong>Price: ${{ product.price }}</strong></p>
+        <p>{{ product.description }}</p>
+        <p>Tags: <span class="tags">{{ product.tags }}</span></p>
+
+        <form action="{% url 'add_to_cart' product.id %}" method="POST" style="margin-top: 20px; display: inline-block;">
+            {% csrf_token %}
+            <button type="submit" style="padding: 10px 15px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em;">
+                Add to Cart
+            </button>
+        </form>
+        
+        <form action="{% url 'submit_feedback' product.id %}" method="POST" style="display: inline-block; margin-left: 10px;">
+            {% csrf_token %}
+            <input type="hidden" name="feedback_type" value="1">
+            <button type="submit" title="Like this product" style="font-size: 1.2em; background: none; border: none; cursor: pointer;">👍</button>
+        </form>
+
+        <form action="{% url 'submit_feedback' product.id %}" method="POST" style="display: inline-block; margin-left: 5px;">
+            {% csrf_token %}
+            <input type="hidden" name="feedback_type" value="-1">
+            <button type="submit" title="Dislike this product" style="font-size: 1.2em; background: none; border: none; cursor: pointer;">👎</button>
+        </form>
+
+    </div>
+
+    <div class="recs">
+        <h2>🧠 Recommended for you (from Cython)</h2>
+        {% if recommended_products %}
+            <div class="rec-grid">
+                {% for rec in recommended_products %}
+                    <div class="rec-card">
+                        <h4><a href="{% url 'product_detail' rec.pk %}">{{ rec.name }}</a></h4>
+                        <p>${{ rec.price }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No recommendations found for this item.</p>
+        {% endif %}
+    </div>
+</div>
